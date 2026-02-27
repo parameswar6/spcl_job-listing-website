@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobHunt — Find Your Dream Job</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="logo">Job<span>Hunt</span></div>
+      <div class="nav-links">
+        <a href="#">Browse Jobs</a>
+        <a href="#">Companies</a>
+        <a href="#">For Employers</a>
+      </div>
+      <button class="btn-nav">Post a Job</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-shape shape1"></div>
+    <div class="hero-bg-shape shape2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🚀 500+ New Jobs This Week</div>
+      <h1>Find Work That <br/><span class="highlight">Moves You</span></h1>
+      <p class="hero-sub">Discover opportunities across tech, design, marketing & more. No noise, just the right roles.</p>
+      <div class="search-bar-hero">
+        <div class="search-icon">🔍</div>
+        <input type="text" id="heroSearch" placeholder="Search job title, company, or keyword…" />
+        <button class="btn-search" onclick="applyHeroSearch()">Search</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>12K+</strong><span>Jobs Listed</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><strong>3.2K+</strong><span>Companies</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><strong>98%</strong><span>Placement Rate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-layout">
+
+    <!-- FILTERS SIDEBAR -->
+    <aside class="filters-panel">
+      <div class="filters-header">
+        <h3>Filters</h3>
+        <button class="btn-clear" id="clearFilters" onclick="clearAllFilters()">Clear All</button>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Search by Keyword</label>
+        <div class="filter-search-wrap">
+          <input type="text" id="searchInput" class="filter-input" placeholder="e.g. React, Python…" oninput="filterJobs()"/>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Location</label>
+        <select id="locationFilter" class="filter-select" onchange="filterJobs()">
+          <option value="">All Locations</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Pune">Pune</option>
+          <option value="Chennai">Chennai</option>
+          <option value="Kolkata">Kolkata</option>
+          <option value="Remote">Remote</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Category</label>
+        <div class="chip-group" id="categoryChips">
+          <button class="chip active" data-value="" onclick="selectChip(this, 'categoryChips')">All</button>
+          <button class="chip" data-value="IT" onclick="selectChip(this, 'categoryChips')">IT</button>
+          <button class="chip" data-value="Design" onclick="selectChip(this, 'categoryChips')">Design</button>
+          <button class="chip" data-value="Marketing" onclick="selectChip(this, 'categoryChips')">Marketing</button>
+          <button class="chip" data-value="Management" onclick="selectChip(this, 'categoryChips')">Management</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Experience Level</label>
+        <div class="chip-group" id="expChips">
+          <button class="chip active" data-value="" onclick="selectChip(this, 'expChips')">All</button>
+          <button class="chip" data-value="fresher" onclick="selectChip(this, 'expChips')">Fresher</button>
+          <button class="chip" data-value="mid-level" onclick="selectChip(this, 'expChips')">Mid-Level</button>
+          <button class="chip" data-value="senior" onclick="selectChip(this, 'expChips')">Senior</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Job Type</label>
+        <div class="chip-group" id="typeChips">
+          <button class="chip active" data-value="" onclick="selectChip(this, 'typeChips')">All</button>
+          <button class="chip" data-value="Full-time" onclick="selectChip(this, 'typeChips')">Full-time</button>
+          <button class="chip" data-value="Remote" onclick="selectChip(this, 'typeChips')">Remote</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- JOB LISTINGS -->
+    <section class="jobs-section">
+      <div class="jobs-header">
+        <div>
+          <h2 class="jobs-title">Latest Opportunities</h2>
+          <p class="jobs-count" id="jobCount">Showing 12 jobs</p>
+        </div>
+        <div class="sort-wrap">
+          <select class="filter-select" id="sortSelect" onchange="filterJobs()">
+            <option value="newest">Newest First</option>
+            <option value="az">A → Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="jobs-grid" id="jobsGrid">
+        <!-- Cards injected by JS -->
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-icon">🔎</div>
+        <h3>No jobs found</h3>
+        <p>Try adjusting your filters or search query.</p>
+        <button class="btn-search" onclick="clearAllFilters()">Reset Filters</button>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </section>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+      <div class="modal-logo-wrap">
+        <div class="modal-logo" id="modalLogo"></div>
+        <div>
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <p class="modal-company" id="modalCompany"></p>
+        </div>
+      </div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-section">
+        <h4>About the Role</h4>
+        <p id="modalDesc"></p>
+      </div>
+      <div class="modal-section">
+        <h4>What We're Looking For</h4>
+        <ul class="modal-req-list" id="modalReqs"></ul>
+      </div>
+      <div class="modal-section">
+        <h4>About the Company</h4>
+        <p id="modalAbout"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-apply">Apply Now →</button>
+        <button class="btn-save-modal" id="modalSaveBtn" onclick="toggleSaveFromModal()">🔖 Save Job</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="logo" style="color:#fff;">Job<span>Hunt</span></div>
+      <p>© 2024 JobHunt. Built with ❤️ for ambitious people.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
