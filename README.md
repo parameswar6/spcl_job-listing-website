@@ -98,10 +98,5 @@ job-listing-website/
 
 ## 👨‍💻 Author
 
-Built as part of an internship task — Job Listing Website project.
-
----
-
-## 📝 License
-
-MIT — Free to use and modify.
+parameswar swain
+Driems university
